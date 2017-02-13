@@ -1,0 +1,42 @@
+{
+  "name": "tracim_sidebarleft",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sidebarleft.jsx",
+  "scripts": {
+    "servdev": "NODE_ENV=development && webpack-dev-server --port 8083 --watch --colors --inline --hot --content-base dist/",
+    "start-static-mockapi": "json-server --routes api/routes.json --watch api/static_db.json --port 3083",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Côme Huguiès",
+  "license": "ISC",
+  "standard": {
+    "globals": [
+      "fetch"
+    ],
+    "parser": "babel-eslint",
+    "ignore": []
+  },
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-eslint": "^7.1.1",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-class-properties": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.22.0",
+    "babel-polyfill": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "file-loader": "^0.10.0",
+    "json-server": "^0.9.4",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "standard": "^8.6.0",
+    "standard-loader": "^5.0.0",
+    "url-loader": "^0.5.7",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.3.0"
+  },
+  "dependencies": {
+    "whatwg-fetch": "^2.0.2"
+  }
+}
