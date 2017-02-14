@@ -1,8 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Collapse from 'react-collapse'
 
-const GLOBAL_API_PATH = document.getElementById('sidebarleft_menu').getAttribute('apiPath')
-const GLOBAL_API_PARAMETERS = document.getElementById('sidebarleft_menu').getAttribute('apiParameters')
+const GLOBAL_API_PATH = document.getElementById('sidebarleft_menu').getAttribute('apiPath') || ''
+const GLOBAL_API_PARAMETERS = document.getElementById('sidebarleft_menu').getAttribute('apiParameters') || ''
 
 class SidebarLeft extends React.Component {
   constructor () {
@@ -26,9 +27,7 @@ class SidebarLeft extends React.Component {
     return (
       <div className={'sidebarleft textMenuColor'}>
         <div className={'sidebarleft__menu'}>
-          { this.state.menuTree.map((treeItem, i) =>
-            <MenuNode data={treeItem} nodeDeepness={0} key={'root_' + i} />
-          )}
+          { this.state.menuTree.map((treeItem, i) => <MenuNode data={treeItem} nodeDeepness={0} key={'root_' + i} />)}
         </div>
       </div>
     )
@@ -49,8 +48,14 @@ class MenuNode extends React.Component {
 
     const { nodeData } = this.state
 
-    if (nodeData.type !== 'workspace' && nodeData.type !== 'folder') return console.log('this is neither a workspace nor a folder')
-    if (nodeData.type === 'folder' && nodeData.children === false) return console.log('this is an empty folder')
+    if (nodeData.type !== 'workspace' && nodeData.type !== 'folder') return
+
+    if (nodeData.state.opened) {
+      return this.setState({...this.state, nodeData: {...nodeData, state: {...nodeData.state, opened: false}, children: true}})
+    }
+    if (nodeData.type === 'folder' && nodeData.children === false) {
+      return this.setState({...this.state, nodeData: {...nodeData, state: {...nodeData.state, opened: true}}})
+    }
 
     fetch(GLOBAL_API_PATH + 'workspaces/treeview_children?id=' + nodeData.id, {
       method: 'GET',
@@ -70,15 +75,17 @@ class MenuNode extends React.Component {
 
     const styles = {
       menuItem: {
-        marginLeft: '10px'
+        paddingLeft: '10px'
       },
       expandPicto: {
-        position: 'absolute'
+        position: 'absolute',
+        width: '25px',
+        textAlign: 'center'
       },
       link: {
         display: 'inline',
         whiteSpace: 'nowrap',
-        marginLeft: '14px'
+        marginLeft: '25px'
       }
     }
 
@@ -101,7 +108,7 @@ class MenuNode extends React.Component {
     const expandPicto = (() => nodeData.type === 'folder' || nodeData.type === 'workspace' ? (nodeData.state.opened ? 'fa-caret-down' : 'fa-caret-right') : '')()
 
     return (
-      <div className={'sidebarleft__menu__item'} style={styles.menuItem}>
+      <div className={'sidebarleft__menu__item'} style={nodeDeepness !== 0 ? styles.menuItem : {}}>
         <div className={nodeClass} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
           <div className={'sidebarleft__menu__item__expandpicto'} style={styles.expandPicto} onClick={e => this.handlerOnClickExpandPicto(e)}>
             <i className={'fa ' + expandPicto} />
@@ -111,15 +118,17 @@ class MenuNode extends React.Component {
             { nodeData.text }
           </a>
         </div>
-        { Array.isArray(nodeData.children) && nodeData.children.map((child, i) =>
-          <MenuNode
-            data={child}
-            nodeDeepness={nodeDeepness + 1}
-            handleOnClick={this.handlerOnClickExpandPicto}
-            selectedNodeId={selectedNodeId}
-            key={nodeDeepness + '_' + i}
-          />
-        )}
+        <Collapse isOpened={Array.isArray(nodeData.children)} springConfig={{stiffness: 500, damping: 40}} hasNestedCollapse>
+          { Array.isArray(nodeData.children) && nodeData.children.map((child, i) =>
+            <MenuNode
+              data={child}
+              nodeDeepness={nodeDeepness + 1}
+              handleOnClick={this.handlerOnClickExpandPicto}
+              selectedNodeId={selectedNodeId}
+              key={nodeDeepness + '_' + i}
+            />
+          )}
+        </Collapse>
       </div>
     )
   }
