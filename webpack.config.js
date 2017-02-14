@@ -4,10 +4,9 @@ const isProduction = process.env.NODE_ENV === "production"
 module.exports = {
   entry: './sidebarleft.jsx',
   output: {
-    path: '/dist',
+    path: './dist',
     filename: 'sidebarleft.js',
   },
-  watch: isProduction ? false : true,
   module: {
     rules: [{
       test: /\.jsx?$/,

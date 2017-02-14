@@ -23,7 +23,7 @@
         "children": false,
         "id": "workspace_25__content_125",
         "li_attr": {
-          "title": "woioy",
+          "title": "Je suis un nom long juste pour être relou",
           "class": "tracim-tree-item-is-a-folder"
         },
         "a_attr": {
@@ -33,7 +33,7 @@
           "selected": false,
           "opened": true
         },
-        "text": "woioy"
+        "text": "Je suis un nom long juste pour être relou"
       },
       {
         "type": "thread",
@@ -119,7 +119,7 @@
           "href": "/workspaces/29"
         },
         "state": {
-          "selected": false,
+          "selected": true,
           "opened": false
         },
         "text": "igni ?"
@@ -165,142 +165,6 @@
         "li_attr": {
           "title": "ws1",
           "class": "tracim-tree-item-is-a-workspace"
-        },
-        "a_attr": {
-          "href": "/workspaces/23"
-        },
-        "state": {
-          "selected": false,
-          "opened": false
-        },
-        "text": "ws1"
-      }
-    ]
-  },
-  "root_test": {
-    "d": [
-      {
-        "type": "workspace",
-        "children": true,
-        "id": "workspace_28__",
-        "li_attr": {
-          "title": "bon je suis un test et toi"
-        },
-        "a_attr": {
-          "href": "/workspaces/28"
-        },
-        "state": {
-          "selected": false,
-          "opened": false
-        },
-        "text": "bon je suis un test et toi"
-      },
-      {
-        "type": "workspace",
-        "children": true,
-        "id": "workspace_25__",
-        "li_attr": {
-          "title": "caldav test"
-        },
-        "a_attr": {
-          "href": "/workspaces/25"
-        },
-        "state": {
-          "selected": false,
-          "opened": false
-        },
-        "text": "caldav test"
-      },
-      {
-        "type": "workspace",
-        "children": true,
-        "id": "workspace_29__",
-        "li_attr": {
-          "title": "igni ?"
-        },
-        "a_attr": {
-          "href": "/workspaces/29"
-        },
-        "state": {
-          "selected": false,
-          "opened": false
-        },
-        "text": "igni ?"
-      },
-      {
-        "type": "workspace",
-        "children": [
-          {
-            "type": "folder",
-            "children": [
-              {
-                "type": "thread",
-                "children": [
-
-                ],
-                "id": "workspace_26__content_143",
-                "li_attr": {
-                  "title": "Ceci est une discusion "
-                },
-                "a_attr": {
-                  "href": "/workspaces/26/folders/142/threads/143"
-                },
-                "state": {
-                  "selected": true,
-                  "opened": false
-                },
-                "text": "Ceci est une discusion "
-              }
-            ],
-            "id": "workspace_26__content_142",
-            "li_attr": {
-              "title": "hein ?"
-            },
-            "a_attr": {
-              "href": "/workspaces/26/folders/142"
-            },
-            "state": {
-              "selected": false,
-              "opened": true
-            },
-            "text": "hein ?"
-          }
-        ],
-        "id": "workspace_26__",
-        "li_attr": {
-          "title": "MrDuTilleul"
-        },
-        "a_attr": {
-          "href": "/workspaces/26"
-        },
-        "state": {
-          "selected": false,
-          "opened": true
-        },
-        "text": "MrDuTilleul"
-      },
-      {
-        "type": "workspace",
-        "children": true,
-        "id": "workspace_24__",
-        "li_attr": {
-          "title": "test"
-        },
-        "a_attr": {
-          "href": "/workspaces/24"
-        },
-        "state": {
-          "selected": false,
-          "opened": false
-        },
-        "text": "test"
-      },
-      {
-        "type": "workspace",
-        "children": true,
-        "id": "workspace_23__",
-        "li_attr": {
-          "title": "ws1"
         },
         "a_attr": {
           "href": "/workspaces/23"
