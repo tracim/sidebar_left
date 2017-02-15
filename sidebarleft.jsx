@@ -75,7 +75,7 @@ class MenuNode extends React.Component {
 
     const styles = {
       menuItem: {
-        paddingLeft: '10px'
+        paddingLeft: nodeDeepness * 10 + 'px'
       },
       expandPicto: {
         position: 'absolute',
@@ -93,7 +93,7 @@ class MenuNode extends React.Component {
       if (nodeData.state.selected) rez += 'textMenuClickedColor textMenuClickedBgColor '
       if (isNodeHovered) rez += 'textMenuColor-hover textMenuBgColor-hover '
       return rez
-    })('sidebarleft__menu__item__name ')
+    })('sidebarleft__menu__item ')
 
     const faIcon = (() => {
       switch (nodeData.type) {
@@ -108,15 +108,17 @@ class MenuNode extends React.Component {
     const expandPicto = (() => nodeData.type === 'folder' || nodeData.type === 'workspace' ? (nodeData.state.opened ? 'fa-caret-down' : 'fa-caret-right') : '')()
 
     return (
-      <div className={'sidebarleft__menu__item'} style={nodeDeepness !== 0 ? styles.menuItem : {}}>
+      <div>
         <div className={nodeClass} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-          <div className={'sidebarleft__menu__item__expandpicto'} style={styles.expandPicto} onClick={e => this.handlerOnClickExpandPicto(e)}>
-            <i className={'fa ' + expandPicto} />
+          <div className={'sidebarleft__menu__item__name'} style={nodeDeepness !== 0 ? styles.menuItem : {}}>
+            <div className={'sidebarleft__menu__item__expandpicto'} style={styles.expandPicto} onClick={e => this.handlerOnClickExpandPicto(e)}>
+              <i className={'fa ' + expandPicto} />
+            </div>
+            <a className={'sidebarleft__menu__item__link'} href={nodeData.a_attr.href} style={styles.link}>
+              <i className={'fa ' + faIcon} />
+              { nodeData.text }
+            </a>
           </div>
-          <a className={'sidebarleft__menu__item__link'} href={nodeData.a_attr.href} style={styles.link}>
-            <i className={'fa ' + faIcon} />
-            { nodeData.text }
-          </a>
         </div>
         <Collapse isOpened={Array.isArray(nodeData.children)} springConfig={{stiffness: 500, damping: 40}} hasNestedCollapse>
           { Array.isArray(nodeData.children) && nodeData.children.map((child, i) =>
