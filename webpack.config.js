@@ -4,6 +4,8 @@ const isProduction = process.env.NODE_ENV === 'production'
 module.exports = {
   entry: './sidebarleft.jsx',
   output: {
+    libraryTarget: 'var',
+    library: 'sidebarLeft',
     path: './dist',
     filename: 'sidebarleft.js',
   },

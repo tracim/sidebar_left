@@ -1,9 +1,6 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import Collapse from 'react-collapse'
-
-const GLOBAL_API_PATH = document.getElementById('sidebarleft_menu').getAttribute('apiPath') || ''
-const GLOBAL_API_PARAMETERS = document.getElementById('sidebarleft_menu').getAttribute('apiParameters') || ''
 
 class SidebarLeft extends React.Component {
   constructor () {
@@ -13,8 +10,13 @@ class SidebarLeft extends React.Component {
     }
   }
 
+  static propTypes = {
+    apiPath: PropTypes.string.isRequired,
+    apiParameters: PropTypes.string
+  }
+
   componentDidMount = () => {
-    fetch(GLOBAL_API_PATH + 'workspaces/treeview_root' + GLOBAL_API_PARAMETERS, {
+    fetch(this.props.apiPath + 'workspaces/treeview_root' + this.props.apiParameters, {
       method: 'GET',
       headers: { 'Accept': 'application/json' },
       credentials: 'include'
@@ -27,7 +29,7 @@ class SidebarLeft extends React.Component {
     return (
       <div className={'sidebarleft textMenuColor'}>
         <div className={'sidebarleft__menu'}>
-          { this.state.menuTree.map((treeItem, i) => <MenuNode data={treeItem} nodeDeepness={0} key={'root_' + i} />)}
+          { this.state.menuTree.map((treeItem, i) => <MenuNode data={treeItem} nodeDeepness={0} key={'root_' + i} apiPath={this.props.apiPath} />)}
         </div>
       </div>
     )
@@ -41,6 +43,12 @@ class MenuNode extends React.Component {
       nodeData: props.data,
       isNodeHovered: false
     }
+  }
+
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+    nodeDeepness: PropTypes.number.isRequired,
+    apiPath: PropTypes.string.isRequired
   }
 
   handlerOnClickExpandPicto = (e) => {
@@ -57,7 +65,7 @@ class MenuNode extends React.Component {
       return this.setState({...this.state, nodeData: {...nodeData, state: {...nodeData.state, opened: true}}})
     }
 
-    fetch(GLOBAL_API_PATH + 'workspaces/treeview_children?id=' + nodeData.id, {
+    fetch(this.props.apiPath + 'workspaces/treeview_children?id=' + nodeData.id, {
       method: 'GET',
       headers: { 'Accept': 'application/json' },
       credentials: 'include'
@@ -70,7 +78,7 @@ class MenuNode extends React.Component {
   handleMouseLeave = () => this.setState({...this.state, isNodeHovered: false})
 
   render () {
-    const { nodeDeepness, selectedNodeId } = this.props
+    const { nodeDeepness } = this.props
     const { nodeData, isNodeHovered } = this.state
 
     const styles = {
@@ -125,9 +133,8 @@ class MenuNode extends React.Component {
             <MenuNode
               data={child}
               nodeDeepness={nodeDeepness + 1}
-              handleOnClick={this.handlerOnClickExpandPicto}
-              selectedNodeId={selectedNodeId}
               key={nodeDeepness + '_' + i}
+              apiPath={this.props.apiPath}
             />
           )}
         </Collapse>
@@ -136,7 +143,8 @@ class MenuNode extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <SidebarLeft />
-  , document.getElementById('sidebarleft_menu')
-)
+// wrapper for app launcher (it's better to have the wrapper in a separated file but since this app can only be used for tracim, it's not required)
+const sidebarLeft = (element, apiPath, apiParameters = '') => {
+  ReactDOM.render(<SidebarLeft apiPath={apiPath} apiParameters={apiParameters} />, element)
+}
+module.exports = sidebarLeft
