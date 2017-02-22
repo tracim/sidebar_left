@@ -22,6 +22,12 @@ module.exports = {
         presets: ['react', 'es2015'],
         plugins: ['transform-object-rest-spread', 'transform-class-properties'],
       }
+    }, {
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader'],
+    }, {
+      test: /\.styl$/,
+      use: ['style-loader', 'css-loader', 'stylus-loader'], // loaders order apply from right to left
     }]
     //   test: /\.png$/,
     //   use: 'url-loader',

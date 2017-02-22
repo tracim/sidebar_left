@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import Collapse from 'react-collapse'
+require('./style.styl')
 
 class SidebarLeft extends React.Component {
   constructor () {
@@ -84,16 +85,6 @@ class MenuNode extends React.Component {
     const styles = {
       menuItem: {
         paddingLeft: nodeDeepness * 10 + 'px'
-      },
-      expandPicto: {
-        position: 'absolute',
-        width: '25px',
-        textAlign: 'center'
-      },
-      link: {
-        display: 'inline',
-        whiteSpace: 'nowrap',
-        marginLeft: '25px'
       }
     }
 
@@ -119,10 +110,10 @@ class MenuNode extends React.Component {
       <div>
         <div className={nodeClass} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
           <div className={'sidebarleft__menu__item__name'} style={nodeDeepness !== 0 ? styles.menuItem : {}}>
-            <div className={'sidebarleft__menu__item__expandpicto'} style={styles.expandPicto} onClick={e => this.handlerOnClickExpandPicto(e)}>
+            <div className={'sidebarleft__menu__item__expandpicto'} onClick={e => this.handlerOnClickExpandPicto(e)}>
               <i className={'fa ' + expandPicto} />
             </div>
-            <a className={'sidebarleft__menu__item__link'} href={nodeData.a_attr.href} style={styles.link}>
+            <a className={'sidebarleft__menu__item__link'} href={nodeData.a_attr.href}>
               <i className={'fa ' + faIcon} />
               { nodeData.text }
             </a>
