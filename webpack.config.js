@@ -1,12 +1,13 @@
 const webpack = require('webpack')
+const path = require('path')
 const isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {
-  entry: './sidebarleft.jsx',
+  entry: './sidebarLeft.jsx',
   output: {
     libraryTarget: 'var',
     library: 'sidebarLeft',
-    path: './dist',
+    path: path.resolve(__dirname, 'dist'),
     filename: 'sidebarleft.js',
   },
   module: {
