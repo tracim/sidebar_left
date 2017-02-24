@@ -3,6 +3,14 @@ import ReactDOM from 'react-dom'
 import Collapse from 'react-collapse'
 require('./style.styl')
 
+const propTypesSidebarLeft = {
+  nodeAreLink: PropTypes.bool.isRequired,
+  apiPath: PropTypes.string.isRequired,
+  apiParameters: PropTypes.string.isRequired,
+  apiChildPath: PropTypes.string.isRequired,
+  apiChildParameters: PropTypes.string.isRequired
+}
+
 class SidebarLeft extends React.Component {
   constructor () {
     super()
@@ -10,14 +18,6 @@ class SidebarLeft extends React.Component {
       menuTree: [],
       selectedNode: '' // node selected (clicked) by the user
     }
-  }
-
-  static propTypes = {
-    nodeAreLink: PropTypes.bool.isRequired,
-    apiPath: PropTypes.string.isRequired,
-    apiParameters: PropTypes.string.isRequired,
-    apiChildPath: PropTypes.string.isRequired,
-    apiChildParameters: PropTypes.string.isRequired
   }
 
   componentDidMount = () => {
@@ -55,6 +55,20 @@ class SidebarLeft extends React.Component {
     )
   }
 }
+SidebarLeft.propTypes = propTypesSidebarLeft
+
+const propTypesMenuNode = {
+  data: PropTypes.object.isRequired,
+  nodeAreLink: PropTypes.bool.isRequired,
+  nodeDeepness: PropTypes.number.isRequired,
+  apiChildPath: PropTypes.string.isRequired,
+  apiChildParameters: PropTypes.string.isRequired,
+  selectedNode: PropTypes.string
+}
+
+const defaultPropsMenuNode = {
+  selectedNode: ''
+}
 
 class MenuNode extends React.Component {
   constructor (props) {
@@ -63,14 +77,6 @@ class MenuNode extends React.Component {
       nodeData: props.data,
       isNodeHovered: false
     }
-  }
-
-  static propTypes = {
-    data: PropTypes.object.isRequired,
-    nodeDeepness: PropTypes.number.isRequired,
-    apiChildPath: PropTypes.string.isRequired,
-    apiChildParameters: PropTypes.string.isRequired,
-    selectedNode: PropTypes.string
   }
 
   handlerOnClickExpandPicto = (e) => {
@@ -87,6 +93,7 @@ class MenuNode extends React.Component {
       return this.setState({...this.state, nodeData: {...nodeData, state: {...nodeData.state, opened: true}}})
     }
 
+    // bellow getChildTreeUrl is a bit unnatural because it was a bit complicated to handle GET parameters from tracim to sidebarleft
     const getChildTreeUrl = this.props.apiChildPath + '?id=' + nodeData.id + (this.props.apiChildParameters !== ''
       ? '&' + this.props.apiChildParameters.substr(1) // substr(1) removes the first '?'
       : ''
@@ -114,8 +121,8 @@ class MenuNode extends React.Component {
     }
 
     const nodeClass = (rez => {
-      // displays node as selected, in sidebarleft, only when they have the selected attribute at true
-      // in the move folder popup, only when it is the clicked node
+      // displays node as "selected", in sidebarleft, only when they have the selected attribute at true
+      // or in the 'move folder popup or tracim', only when it is the clicked node
       if ((nodeAreLink && nodeData.state.selected) || selectedNode === nodeData.id) rez += 'textMenuClickedColor textMenuClickedBgColor '
       if (isNodeHovered) rez += 'textMenuColor-hover textMenuBgColor-hover '
       return rez
@@ -141,10 +148,9 @@ class MenuNode extends React.Component {
               <i className={'fa ' + expandPicto} />
             </div>
             { nodeAreLink
-                ? <a className={'sidebarleft__menu__item__link'} href={nodeData.a_attr.href} id={nodeData.id}><i className={'fa ' + faIcon} />{ nodeData.text }</a>
-                : <div className={'sidebarleft__menu__item__link'} id={nodeData.id} onClick={() => handlerSelectNode(nodeData.id)}> <i className={'fa ' + faIcon} />{ nodeData.text }</div>
+              ? <a className={'sidebarleft__menu__item__link'} href={nodeData.a_attr.href} id={nodeData.id}><i className={'fa ' + faIcon} />{ nodeData.text }</a>
+              : <div className={'sidebarleft__menu__item__link'} id={nodeData.id} onClick={() => handlerSelectNode(nodeData.id)}> <i className={'fa ' + faIcon} />{ nodeData.text }</div>
             }
-
           </div>
         </div>
         <Collapse isOpened={Array.isArray(nodeData.children)} springConfig={{stiffness: 500, damping: 40}} hasNestedCollapse>
@@ -165,11 +171,14 @@ class MenuNode extends React.Component {
     )
   }
 }
+MenuNode.propTypes = propTypesMenuNode
+MenuNode.defaultProps = defaultPropsMenuNode
 
 // wrapper for app launcher (it's better to have the wrapper in a separated file but since this app can only be used for tracim, it's not required)
 const sidebarLeft = (element, nodeAreLink, apiPath, apiParameters = '', apiChildPath = '', apiChildParameters = '') => {
   ReactDOM.render(
-    <SidebarLeft nodeAreLink={nodeAreLink} apiPath={apiPath} apiParameters={apiParameters} apiChildPath={apiChildPath} apiChildParameters={apiChildParameters} />, element
+    <SidebarLeft nodeAreLink={nodeAreLink} apiPath={apiPath} apiParameters={apiParameters} apiChildPath={apiChildPath} apiChildParameters={apiChildParameters} />,
+    element
   )
 }
 module.exports = sidebarLeft
