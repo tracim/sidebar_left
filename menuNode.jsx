@@ -3,7 +3,7 @@ import Collapse from 'react-collapse'
 
 const propTypes = {
   data: PropTypes.object.isRequired,
-  nodeAreLink: PropTypes.bool.isRequired,
+  nodesAreLinks: PropTypes.bool.isRequired,
   nodeDeepness: PropTypes.number.isRequired,
   apiChildPath: PropTypes.string.isRequired,
   apiChildParameters: PropTypes.string.isRequired,
@@ -55,7 +55,7 @@ export default class MenuNode extends React.Component {
   handleMouseLeave = () => this.setState({...this.state, isNodeHovered: false})
 
   render () {
-    const { nodeAreLink, apiChildPath, apiChildParameters, nodeDeepness, selectedNode, handlerSelectNode } = this.props
+    const { nodesAreLinks, apiChildPath, apiChildParameters, nodeDeepness, selectedNode, handlerSelectNode } = this.props
     const { nodeData, isNodeHovered } = this.state
 
     const styles = {
@@ -67,7 +67,7 @@ export default class MenuNode extends React.Component {
     const nodeClass = (rez => {
       // displays node as "selected", in sidebarleft, only when they have the selected attribute at true
       // or in the 'move folder popup or tracim', only when it is the clicked node
-      if ((nodeAreLink && nodeData.state.selected) || selectedNode === nodeData.id) rez += 'textMenuClickedColor textMenuClickedBgColor '
+      if ((nodesAreLinks && nodeData.state.selected) || selectedNode === nodeData.id) rez += 'textMenuClickedColor textMenuClickedBgColor '
       if (isNodeHovered) rez += 'textMenuColor-hover textMenuBgColor-hover '
       return rez
     })('sidebarleft__menu__item ')
@@ -91,7 +91,7 @@ export default class MenuNode extends React.Component {
             <div className={'sidebarleft__menu__item__expandpicto'} onClick={e => this.handlerOnClickExpandPicto(e)}>
               <i className={'fa ' + expandPicto} />
             </div>
-            { nodeAreLink
+            { nodesAreLinks
               ? <a className={'sidebarleft__menu__item__link'} href={nodeData.a_attr.href} id={nodeData.id}><i className={'fa ' + faIcon} />{ nodeData.text }</a>
               : <div className={'sidebarleft__menu__item__link'} id={nodeData.id} onClick={() => handlerSelectNode(nodeData.id)}> <i className={'fa ' + faIcon} />{ nodeData.text }</div>
             }
@@ -101,7 +101,7 @@ export default class MenuNode extends React.Component {
           { Array.isArray(nodeData.children) && nodeData.children.map((child, i) =>
             <MenuNode
               data={child}
-              nodeAreLink={nodeAreLink}
+              nodesAreLinks={nodesAreLinks}
               nodeDeepness={nodeDeepness + 1}
               key={nodeDeepness + '_' + i}
               apiChildPath={apiChildPath}
