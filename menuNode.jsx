@@ -87,13 +87,13 @@ export default class MenuNode extends React.Component {
     return (
       <div>
         <div className={nodeClass} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-          <div className={'sidebarleft__menu__item__name'} style={nodeDeepness !== 0 ? styles.menuItem : {}}>
+          <div className={'sidebarleft__menu__item__name'} id={nodeData.id} style={nodeDeepness !== 0 ? styles.menuItem : {}}>
             <div className={'sidebarleft__menu__item__expandpicto'} onClick={e => this.handlerOnClickExpandPicto(e)}>
               <i className={'fa ' + expandPicto} />
             </div>
             { nodesAreLinks
-              ? <a className={'sidebarleft__menu__item__link'} href={nodeData.a_attr.href} id={nodeData.id}><i className={'fa ' + faIcon} />{ nodeData.text }</a>
-              : <div className={'sidebarleft__menu__item__link'} id={nodeData.id} onClick={() => handlerSelectNode(nodeData.id)}> <i className={'fa ' + faIcon} />{ nodeData.text }</div>
+              ? <a className={'sidebarleft__menu__item__link'} href={nodeData.a_attr.href}><i className={'fa ' + faIcon} />{ nodeData.text }</a>
+              : <div className={'sidebarleft__menu__item__link'} onClick={() => handlerSelectNode(nodeData.id)}> <i className={'fa ' + faIcon} />{ nodeData.text }</div>
             }
           </div>
         </div>
