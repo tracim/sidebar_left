@@ -27,12 +27,10 @@ class SidebarLeft extends React.Component {
       credentials: 'include'
     })
     .then(response => response.json())
-    .then(json => this.setState({menuTree: json.d}))
+    .then(json => this.setState({...this.state, menuTree: json.d}))
   }
 
-  handleChangeSelectedNode = (newSelectedNodeId) => {
-    this.setState({...this.state, selectedNode: newSelectedNodeId})
-  }
+  handleChangeSelectedNode = newSelectedNodeId => this.setState({...this.state, selectedNode: newSelectedNodeId})
 
   render () {
     return (
