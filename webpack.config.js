@@ -8,7 +8,7 @@ module.exports = {
     libraryTarget: 'var',
     library: 'sidebarLeft',
     path: path.resolve(__dirname, 'dist'),
-    filename: 'sidebarleft.js',
+    filename: 'sidebarleft.js'
   },
   module: {
     rules: [{
@@ -21,18 +21,18 @@ module.exports = {
       loader: 'babel-loader',
       options: {
         presets: ['react', 'es2015'],
-        plugins: ['transform-object-rest-spread', 'transform-class-properties'],
+        plugins: ['transform-object-rest-spread', 'transform-class-properties']
       }
     }, {
       test: /\.css$/,
-      use: ['style-loader', 'css-loader'],
+      use: ['style-loader', 'css-loader']
     }, {
       test: /\.styl$/,
-      use: ['style-loader', 'css-loader', 'stylus-loader'], // loaders order apply from right to left
+      use: ['style-loader', 'css-loader', 'stylus-loader'] // loaders order apply from right to left
     }]
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx']
   },
   plugins: isProduction
     ? [
