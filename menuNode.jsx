@@ -93,7 +93,15 @@ export default class MenuNode extends React.Component {
             </div>
             { nodesAreLinks
               ? <a className={'sidebarleft__menu__item__link'} id={nodeData.id + '_link'} href={nodeData.a_attr.href}><i className={'fa ' + faIcon} />{ nodeData.text }</a>
-              : <div className={'sidebarleft__menu__item__link'} onClick={() => handlerSelectNode(nodeData.id)}> <i className={'fa ' + faIcon} />{ nodeData.text }</div>
+              : (
+                <div
+                  className={'sidebarleft__menu__item__link'}
+                  id={nodeData.id + '_link'}
+                  onClick={() => handlerSelectNode(nodeData.id)}
+                >
+                  <i className={'fa ' + faIcon} />{ nodeData.text }
+                </div>
+              )
             }
           </div>
         </div>
